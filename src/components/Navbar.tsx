@@ -4,6 +4,7 @@ import { type Lang, t, tx } from '../i18n';
 interface NavbarProps {
   lang: Lang;
   onLangToggle: () => void;
+  onContactHighlight: () => void;
 }
 
 /**
@@ -17,7 +18,7 @@ function smoothScrollTo(id: string) {
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export function Navbar({ lang, onLangToggle }: NavbarProps) {
+export function Navbar({ lang, onLangToggle, onContactHighlight }: NavbarProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const navItems = [
@@ -39,7 +40,13 @@ export function Navbar({ lang, onLangToggle }: NavbarProps) {
           {navItems.map((item) => (
             <button
               key={item.key}
-              onClick={() => smoothScrollTo(item.id)}
+              onClick={() => {
+                if (item.key === 'contact') {
+                  onContactHighlight();
+                } else {
+                  smoothScrollTo(item.id);
+                }
+              }}
               // FIX: descriptive aria-label so screen readers announce the action
               aria-label={`Scroll to ${item.id} section`}
               className="relative text-[10px] sm:text-xs md:text-sm whitespace-nowrap nav-link bg-transparent border-none p-0 cursor-pointer overflow-hidden"
