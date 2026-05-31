@@ -17,7 +17,9 @@ export function WordsPullUp({ text, className = '', showAsterisk = false }: Word
       {words.map((word, i) => {
         const isLast = i === words.length - 1;
         return (
-          <span key={i} className="overflow-hidden inline-block pb-[0.2em] mb-[-0.2em]">
+          // FIX: stable key combining word + index avoids reorder glitches
+          // when the same word appears multiple times in the string.
+          <span key={`${word}-${i}`} className="overflow-hidden inline-block pb-[0.2em] mb-[-0.2em]">
             <motion.span
               className="inline-block relative"
               initial={{ y: 20, opacity: 0 }}
@@ -29,10 +31,15 @@ export function WordsPullUp({ text, className = '', showAsterisk = false }: Word
                   {word.slice(0, -1)}
                   <span className="relative">
                     {word.slice(-1)}
-                    <sup className="absolute" style={{ top: '0.65em', right: '-0.3em', fontSize: '0.31em' }}>*</sup>
+                    <sup
+                      className="absolute"
+                      style={{ top: '0.65em', right: '-0.3em', fontSize: '0.31em' }}
+                    />
                   </span>
                 </>
-              ) : word}
+              ) : (
+                word
+              )}
               {i < words.length - 1 ? '\u00A0' : ''}
             </motion.span>
           </span>
@@ -49,6 +56,11 @@ interface Segment {
 
 interface WordsPullUpMultiStyleProps {
   segments: Segment[];
+  /**
+   * Extra classes on the wrapper.
+   * Pass `justify-start` for left-aligned output (e.g. PortfolioSection).
+   * Default: `justify-center`.
+   */
   className?: string;
 }
 
@@ -56,19 +68,21 @@ export function WordsPullUpMultiStyle({ segments, className = '' }: WordsPullUpM
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
 
-  const allWords: { word: string; wordClass: string; globalIndex: number }[] = [];
-  segments.forEach((seg) => {
-    seg.text.split(' ').forEach((word) => {
-      if (word) {
-        allWords.push({ word, wordClass: seg.className || '', globalIndex: allWords.length });
-      }
-    });
-  });
+  const allWords = segments.flatMap((seg) =>
+    seg.text
+      .split(' ')
+      .filter(Boolean)
+      .map((word) => ({ word, wordClass: seg.className ?? '' })),
+  );
 
   return (
     <span ref={ref} className={`inline-flex flex-wrap justify-center ${className}`}>
-      {allWords.map(({ word, wordClass, globalIndex }) => (
-        <span key={globalIndex} className="overflow-hidden inline-block mx-[0.15em] pb-[0.2em] mb-[-0.2em]">
+      {allWords.map(({ word, wordClass }, globalIndex) => (
+        // FIX: stable key combining word + globalIndex
+        <span
+          key={`${word}-${globalIndex}`}
+          className="overflow-hidden inline-block mx-[0.15em] pb-[0.2em] mb-[-0.2em]"
+        >
           <motion.span
             className={`inline-block ${wordClass}`}
             initial={{ y: 20, opacity: 0 }}

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { WordsPullUp } from './WordsPullUp';
 import { Navbar } from './Navbar';
@@ -11,16 +11,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSectionProps) {
-  function handleCtaClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
-    const target = document.getElementById('contact');
-    if (!target) return;
-
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-    // Fire the highlight once the scroll has had time to land (~900ms)
-    setTimeout(onContactHighlight, 900);
-  }
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section className="h-screen p-4 md:p-6">
@@ -31,15 +22,17 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
           loop
           muted
           playsInline
+          // FIX: aria-hidden so screen readers don't announce a decorative video
+          aria-hidden
           className="absolute inset-0 w-full h-full object-cover"
           src="/videos/Hero.mp4"
         />
 
         {/* Noise overlay */}
-        <div className="noise-overlay absolute inset-0 opacity-[0.7] mix-blend-overlay pointer-events-none z-10" />
+        <div className="noise-overlay absolute inset-0 opacity-[0.7] mix-blend-overlay pointer-events-none z-10" aria-hidden />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/75 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/75 z-10" aria-hidden />
 
         {/* Navbar */}
         <Navbar lang={lang} onLangToggle={onLangToggle} />
@@ -71,18 +64,24 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             >
-              <a
-                href="#contact"
-                onClick={handleCtaClick}
-                className="group flex items-center gap-2 hover:gap-3 transition-all duration-300 bg-primary rounded-full pl-5 pr-1 py-1 w-fit"
+              <motion.button
+                onClick={onContactHighlight}
+                aria-label={tx(t.hero.cta, lang)}
+                className="group flex items-center gap-2 bg-primary rounded-full pl-5 pr-1 py-1 w-fit cursor-pointer border-none outline-none"
+                whileTap={shouldReduceMotion ? {} : { scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               >
                 <span className="text-black font-medium text-sm sm:text-base whitespace-nowrap">
                   {tx(t.hero.cta, lang)}
                 </span>
-                <span className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 flex-shrink-0">
-                  <ArrowRight className="w-4 h-4 text-primary" />
-                </span>
-              </a>
+                <motion.span
+                  className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0"
+                  whileHover={shouldReduceMotion ? {} : { x: 3 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <ArrowRight className="w-4 h-4 text-primary" aria-hidden />
+                </motion.span>
+              </motion.button>
             </motion.div>
           </div>
         </div>
