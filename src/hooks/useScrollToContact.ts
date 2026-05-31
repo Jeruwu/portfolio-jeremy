@@ -5,11 +5,6 @@ interface UseScrollToContactReturn {
   scrollToContact: () => void;
 }
 
-/**
- * Scrolls to #contact with the same native smooth-scroll used in the Navbar,
- * then fires the pulse highlight once the section is within 100 px of the
- * viewport top.
- */
 export function useScrollToContact(): UseScrollToContactReturn {
   const [pulseTrigger, setPulseTrigger] = useState(0);
 
@@ -17,27 +12,16 @@ export function useScrollToContact(): UseScrollToContactReturn {
     const el = document.getElementById('contact');
     if (!el) return;
 
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Calculamos la posición Y exacta del elemento en el documento
+    const y = el.getBoundingClientRect().top + window.scrollY;
 
-    // Watch scroll progress and trigger the glow when we're close enough.
-    let hasTriggeredPulse = false;
+    // Forzamos al navegador a ir a esa coordenada exacta
+    window.scrollTo({ top: y, behavior: 'smooth' });
 
-    function onScroll() {
-      if (hasTriggeredPulse) return;
+    setTimeout(() => {
+      setPulseTrigger((prev) => prev + 1);
+    }, 800);
 
-      const rect = el!.getBoundingClientRect();
-      // Fire when the top of the section is within 100 px of the viewport top.
-      if (rect.top <= 100) {
-        hasTriggeredPulse = true;
-        setPulseTrigger((prev) => prev + 1);
-        window.removeEventListener('scroll', onScroll);
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Safety cleanup: remove the listener after 5 s regardless.
-    setTimeout(() => window.removeEventListener('scroll', onScroll), 5000);
   }, []);
 
   return { pulseTrigger, scrollToContact };
