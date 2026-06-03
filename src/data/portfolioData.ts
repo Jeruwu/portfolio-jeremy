@@ -20,6 +20,7 @@ export const portfolioItems = [
     color: '#2a1b14', 
     accent: '#DEDBC8',
     projectUrl: 'https://dashing-sundae-dcaf90.netlify.app/',
+    displayUrl: 'trattorianonna.com',
     caseStudyId: 'trattoria-nonna',
   },
   {
@@ -34,6 +35,7 @@ export const portfolioItems = [
     color: '#1a2936', 
     accent: '#DEDBC8',
     projectUrl: 'https://joyful-biscuit-9df55f.netlify.app/',
+    displayUrl: 'brightsmiledental.com',
     caseStudyId: 'bright-smile-dental',
   },
   {
@@ -48,6 +50,7 @@ export const portfolioItems = [
     color: '#342621', 
     accent: '#DEDBC8',
     projectUrl: 'https://boisterous-phoenix-2b234d.netlify.app/',
+    displayUrl: 'vanceexecutive.com',
     caseStudyId: 'vance-executive',
   },
   {
@@ -62,6 +65,7 @@ export const portfolioItems = [
     color: '#111111', 
     accent: '#DEDBC8',
     projectUrl: 'https://incandescent-cendol-101a0a.netlify.app/',
+    displayUrl: 'apexfitness.app',
     caseStudyId: 'apex-fitness',
   },
 ];

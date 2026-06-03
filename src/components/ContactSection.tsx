@@ -8,6 +8,7 @@ import * as z from 'zod';
 import { WordsPullUpMultiStyle } from './WordsPullUp';
 import { t, tx } from '../i18n';
 import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface ContactSectionProps {
   pulseTrigger?: number;
@@ -78,7 +79,6 @@ const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').regex(/^[^<]*$/, 'Invalid characters'),
   email: z.string().email('Invalid email address'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
-  _gotcha: z.string().max(0, 'Honeypot').optional(),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -94,6 +94,7 @@ const SOCIALS = [
 /* ── Section ──────────────────────────────────────────────────────────── */
 export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
   const { lang } = useLanguage();
+  const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLParagraphElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
@@ -106,18 +107,22 @@ export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
     if (pulseTrigger === 0) return;
 
     let cancelled = false;
+    
+    // Use Amber (245, 158, 11) for dark mode, Cyan (34, 211, 238) for light mode
+    const rgb = theme === 'dark' ? '245, 158, 11' : '34, 211, 238';
+    const defaultBorder = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
 
     (async () => {
       await pulseControls.start({
-        borderColor: 'rgba(245, 158, 11, 0.38)',
+        borderColor: `rgba(${rgb}, 0.38)`,
         boxShadow:
-          '0 0 72px rgba(245,158,11,0.16), 0 0 28px rgba(245,158,11,0.09), inset 0 0 48px rgba(245,158,11,0.05)',
-        backgroundColor: 'rgba(245, 158, 11, 0.04)',
+          `0 0 72px rgba(${rgb},0.16), 0 0 28px rgba(${rgb},0.09), inset 0 0 48px rgba(${rgb},0.05)`,
+        backgroundColor: `rgba(${rgb}, 0.04)`,
         transition: { duration: 1, ease: 'easeOut' },
       });
       if (cancelled) return;
       await pulseControls.start({
-        borderColor: 'rgba(255,255,255,0.05)',
+        borderColor: defaultBorder,
         boxShadow: 'none',
         backgroundColor: 'rgba(0,0,0,0)',
         transition: { duration: 1, ease: 'easeIn' },
@@ -127,7 +132,7 @@ export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
     return () => {
       cancelled = true;
     };
-  }, [pulseTrigger, pulseControls]);
+  }, [pulseTrigger, pulseControls, theme]);
 
   const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success'>('idle');
   const [lastSubmitTime, setLastSubmitTime] = useState(0);
@@ -145,9 +150,6 @@ export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
   const onSubmit = useCallback(
     async (data: ContactFormData) => {
       if (submitState === 'loading') return;
-      
-      // Honeypot check for bots
-      if (data._gotcha && data._gotcha.length > 0) return;
 
       const now = Date.now();
       if (now - lastSubmitTime < 30000) {
@@ -280,11 +282,6 @@ export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
               animate={pulseControls}
             >
               <form onSubmit={handleHookFormSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-                {/* Honeypot field (hidden from screen readers and visual layout) */}
-                <div className="absolute opacity-0 -z-10 w-0 h-0 overflow-hidden" aria-hidden="true">
-                  <input type="text" tabIndex={-1} autoComplete="off" {...register('_gotcha')} />
-                </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField label={tx(t.contact.name, lang)}>
                     <>
@@ -324,6 +321,12 @@ export function ContactSection({ pulseTrigger = 0 }: ContactSectionProps) {
                     {errors.message && <span className="text-[#800020] dark:text-red-400 text-[10px] mt-1">{errors.message.message}</span>}
                   </>
                 </FormField>
+
+                {Object.keys(errors).length > 0 && (
+                  <div className="text-[#800020] dark:text-red-400 text-xs text-center font-medium">
+                    {lang === 'en' ? 'Please fix the errors above before submitting.' : 'Por favor corrige los errores de arriba antes de enviar.'}
+                  </div>
+                )}
 
                 <div className="pt-1 flex justify-center w-full">
                   <m.button

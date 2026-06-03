@@ -187,15 +187,7 @@ function ProjectCard({
   const shouldReduceMotion = useReducedMotion();
   const { theme } = useTheme();
 
-  /**
-   * FIX: use a global regex to strip all hyphens and the mockup suffix.
-   * e.g. '/images/ecoglow-mockup.webp' → 'ecoglow.com'
-   */
-  const slug = project.imageSrc
-    .replace(/\/images\//g, '')
-    .replace(/-mockup\.webp$/, '')
-    .toLowerCase();
-  const displayUrl = `${slug}.com`;
+  const displayUrl = (project as any).displayUrl || 'portfolio.com';
 
   const isCaseStudy = Boolean(project.caseStudyId);
 
@@ -225,7 +217,7 @@ function ProjectCard({
     >
       <BrowserChrome url={displayUrl} />
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <Component
         {...(cardClickProps as any)}
         style={{ aspectRatio: '16/10' }}

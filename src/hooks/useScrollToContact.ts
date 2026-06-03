@@ -24,7 +24,17 @@ export function useScrollToContact(): UseScrollToContactReturn {
       offset = 80;
     }
     
-    window.scrollTo({ top: y - offset, behavior: 'smooth' });
+    const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const targetScrollY = y - offset;
+    const effectiveTargetY = Math.min(targetScrollY, maxScrollY);
+
+    // Si ya estamos exactamente en el lugar (o al final de la página), el navegador no disparará evento.
+    if (Math.abs(window.scrollY - effectiveTargetY) < 5) {
+      setPulseTrigger((prev) => prev + 1);
+      return;
+    }
+
+    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
 
     // 2. Vigilante inteligente para saber exactamente cuándo llegamos
     let hasTriggeredPulse = false;

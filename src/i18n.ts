@@ -104,8 +104,8 @@ export const t = {
   },
   contact: {
     title: {
-      en: 'Your business is ready for the next level. Are you?',
-      es: 'Tu negocio está listo para el siguiente nivel. ¿Y tú?',
+      en: 'Your business is ready for the next level. Are\u00A0you?',
+      es: 'Tu negocio está listo para el siguiente nivel. ¿Y\u00A0tú?',
     },
     subtitle: {
       en: "Stop putting out daily fires. Drop me a message and let's architect the system that will automate your growth.",

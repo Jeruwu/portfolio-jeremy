@@ -1,15 +1,17 @@
+import { useState } from 'react';
 import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { t, tx } from '../i18n';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { MagneticWrapper } from './MagneticWrapper';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   onContactHighlight: () => void;
 }
 
 export function Navbar({ onContactHighlight }: NavbarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { lang, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const shouldReduceMotion = useReducedMotion();
@@ -22,19 +24,20 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
   ] as const;
 
   return (
-    <div className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-max max-w-[95vw]">
-      <div className="bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl rounded-full px-5 py-3 md:px-8 md:py-4 transition-colors duration-500 shadow-lg border border-black/5 dark:border-white/10">
-        {/*
-          FIX: aria-label on <nav> identifies this landmark for screen readers.
-          Using role="navigation" is implicit with <nav>, but the label
-          disambiguates when multiple navs exist on the page.
-        */}
-        <nav
-          aria-label="Site navigation"
-          className="flex items-center"
-        >
+    <>
+      <div className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95vw] md:w-max max-w-[95vw]">
+        <div className="bg-white/90 dark:bg-[#111]/90 backdrop-blur-xl rounded-full px-5 py-3 md:px-8 md:py-4 transition-colors duration-500 shadow-lg border border-black/5 dark:border-white/10">
+          {/*
+            FIX: aria-label on <nav> identifies this landmark for screen readers.
+            Using role="navigation" is implicit with <nav>, but the label
+            disambiguates when multiple navs exist on the page.
+          */}
+          <nav
+            aria-label="Site navigation"
+            className="flex items-center justify-between w-full md:w-max"
+          >
           {/* Logo / Name */}
-          <MagneticWrapper>
+          <MagneticWrapper className="flex-shrink-0">
             <a
               href="#"
               onClick={(e) => {
@@ -48,11 +51,11 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
             </a>
           </MagneticWrapper>
 
-          <div className="hidden sm:block w-px h-3 bg-black/10 dark:bg-white/20 mx-3 sm:mx-4 md:mx-5 lg:mx-6" aria-hidden />
+          <div className="hidden sm:block w-px h-3 bg-black/10 dark:bg-white/20 mx-3 sm:mx-4 md:mx-5 lg:mx-6 flex-shrink-0" aria-hidden />
 
-          <div className="flex items-center gap-3 sm:gap-5 md:gap-6 lg:gap-8">
+          <div className="hidden md:grid grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-8 flex-shrink-0">
             {navItems.map((item) => (
-              <MagneticWrapper key={item.key}>
+              <MagneticWrapper key={item.key} className="w-full flex justify-center">
               <a
                 href={`#${item.id}`}
                 onClick={(e) => {
@@ -79,7 +82,7 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
                 }}
                 // FIX: descriptive aria-label so screen readers announce the action
                 aria-label={`Scroll to ${item.id} section`}
-                className={`relative inline-flex items-center justify-center text-[10px] sm:text-xs md:text-sm whitespace-nowrap nav-link bg-transparent border-none p-0 cursor-pointer overflow-hidden leading-none ${theme === 'light' ? 'text-black/70 hover:text-black' : 'text-primary/80 hover:text-primary'} transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-sm px-1`}
+                className={`relative inline-flex w-full items-center justify-center text-[10px] sm:text-xs md:text-sm whitespace-nowrap nav-link bg-transparent border-none p-0 cursor-pointer overflow-hidden leading-none ${theme === 'light' ? 'text-black/70 hover:text-black' : 'text-primary/80 hover:text-primary'} transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-sm px-1`}
                 style={{ textAlign: 'center' }}
               >
                 <div className="grid place-items-center">
@@ -122,8 +125,8 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
           ))}
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 ml-4 sm:ml-5 md:ml-6 lg:ml-8">
-            <MagneticWrapper>
+          <div className="flex items-center gap-2 sm:gap-3 ml-auto md:ml-6 lg:ml-8 flex-shrink-0">
+            <MagneticWrapper className="flex-shrink-0">
               <m.button
               onClick={toggleLanguage}
               // FIX: descriptive aria-label for the language toggle
@@ -171,7 +174,7 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
             </m.button>
           </MagneticWrapper>
 
-          <MagneticWrapper>
+          <MagneticWrapper className="flex-shrink-0">
             <m.button
               onClick={toggleTheme}
               aria-label="Toggle theme"
@@ -195,9 +198,72 @@ export function Navbar({ onContactHighlight }: NavbarProps) {
               </AnimatePresence>
             </m.button>
           </MagneticWrapper>
+          
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 ml-1 rounded-full text-black/80 dark:text-primary focus:outline-none transition-colors"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open mobile menu"
+          >
+            <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
           </div>
         </nav>
       </div>
     </div>
+    
+    {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <m.div
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(16px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[60] bg-white/90 dark:bg-[#111]/90 flex flex-col items-center justify-center gap-8 md:hidden"
+          >
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute top-6 right-6 p-2 text-black/80 dark:text-primary rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+              aria-label="Close mobile menu"
+            >
+              <X className="w-6 h-6 sm:w-8 sm:h-8" />
+            </button>
+
+            {navItems.map((item) => (
+              <a
+                key={item.key}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  
+                  if (item.key === 'contact') {
+                    setTimeout(() => onContactHighlight(), 300);
+                  } else {
+                    const el = document.getElementById(item.id);
+                    if (el) {
+                      setTimeout(() => {
+                        const contentEl = el.querySelector('.max-w-7xl') || el;
+                        const rect = contentEl.getBoundingClientRect();
+                        const y = rect.top + window.scrollY;
+                        let offset = window.innerHeight / 2 - contentEl.clientHeight / 2;
+                        if (contentEl.clientHeight > window.innerHeight) {
+                          offset = 80;
+                        }
+                        window.scrollTo({ top: y - offset, behavior: 'smooth' });
+                      }, 300);
+                    }
+                  }
+                }}
+                className="text-2xl sm:text-3xl font-medium tracking-tight text-black dark:text-primary hover:text-black/60 dark:hover:text-primary/60 transition-colors"
+              >
+                {tx(t.nav[item.key], lang)}
+              </a>
+            ))}
+          </m.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

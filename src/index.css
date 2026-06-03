@@ -95,3 +95,12 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px #101010 inset !important;
     -webkit-text-fill-color: #DEDBC8 !important;
 }
+
+/* ── Utilities ───────────────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
