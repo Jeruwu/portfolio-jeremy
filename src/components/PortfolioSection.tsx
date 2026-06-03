@@ -1,30 +1,78 @@
-import { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { m, useInView, useReducedMotion } from 'framer-motion';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import { WordsPullUpMultiStyle } from './WordsPullUp';
 import { type Lang, t, tx } from '../i18n';
+import { portfolioItems } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
 
 /* ── Brand Colors ─────────────────────────────────────────────────────── */
 const BRAND_COLORS: Record<string, string> = {
-  React:      '#61DAFB',
+  React: '#61DAFB',
   TypeScript: '#3178C6',
-  'Node.js':  '#5FA04E',
-  'Next.js':  '#FFFFFF',
-  'Vue.js':   '#4FC08D',
-  Tailwind:   '#38B2AC',
-  Stripe:     '#008CDD',
-  Supabase:   '#3ECF8E',
-  GSAP:       '#88CE02',
-  HTML5:      '#E34F26',
-  CSS3:       '#1572B6',
-  JavaScript: '#F7DF1E',
-  Figma:      '#F24E1E',
+  'Node.js': '#5FA04E',
+  'Next.js': '#A8A8A8',
+  'Vue.js': '#4FC08D',
+  Tailwind: '#38B2AC',
+  Stripe: '#008CDD',
+  Supabase: '#3ECF8E',
+  GSAP: '#88CE02',
+  HTML5: '#E34F26',
+  CSS3: '#1572B6',
+  JavaScript: '#D4A500',
+  Figma: '#F24E1E',
+  i18n: '#7C5CBF',
+  Lenis: '#5B8FA8',
+  Framer: '#CC44FF',
+  'Framer Motion': '#CC44FF',
+  Firebase: '#FFA000',
+  MongoDB: '#4DB33D',
+  PostgreSQL: '#336791',
+  Python: '#3776AB',
+  Redux: '#764ABC',
+  GraphQL: '#E10098',
+  Docker: '#2496ED',
 };
+
+// Darker variants for colors that are too light on the sand/white light-mode background
+const LIGHT_SAFE_COLORS: Record<string, string> = {
+  React: '#086A80',
+  'Next.js': '#444444',
+  GSAP: '#4A7000',
+  Supabase: '#167050',
+  'Vue.js': '#1F6B45',
+  Framer: '#6A0FAA',
+  'Framer Motion': '#6A0FAA',
+};
+
+/* ── Tag Badge ────────────────────────────────────────────────────────── */
+function TagBadge({ tag, color }: { tag: string; color: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <span
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="text-[10px] font-mono text-black/35 dark:text-primary/45 rounded-full px-2.5 py-[3px] tracking-wide select-none cursor-default"
+      style={{
+        transition: 'color 250ms ease, border-color 250ms ease, background-color 250ms ease, box-shadow 250ms ease',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: hovered ? `${color}BB` : 'currentColor',
+        color: hovered ? color : undefined,
+        boxShadow: hovered ? `0 0 12px ${color}40` : 'none',
+        backgroundColor: hovered ? `${color}1A` : 'transparent',
+      }}
+    >
+      {tag}
+    </span>
+  );
+}
 
 /* ── Browser Chrome ───────────────────────────────────────────────────── */
 function BrowserChrome({ url }: { url: string }) {
   return (
-    <div className="flex items-center gap-2 bg-[#1a1a1a] px-3 py-2.5 border-b border-white/[0.06] flex-shrink-0 group/chrome">
+    <div className="flex items-center gap-2 bg-gray-100 dark:bg-[#1a1a1a] px-3 py-2.5 border-b border-black/[0.06] dark:border-white/[0.06] flex-shrink-0 group/chrome transition-colors duration-500">
       <div className="flex items-center gap-1.5">
         {(
           [
@@ -41,7 +89,7 @@ function BrowserChrome({ url }: { url: string }) {
         ))}
       </div>
 
-      <div className="flex-1 mx-2 bg-black/40 rounded-md px-2.5 py-1 flex items-center gap-1.5 min-w-0">
+      <div className="flex-1 mx-2 bg-black/5 dark:bg-black/40 rounded-md px-2.5 py-1 flex items-center gap-1.5 min-w-0 transition-colors duration-500">
         <svg
           viewBox="0 0 12 12"
           className="w-2.5 h-2.5 text-gray-600 flex-shrink-0"
@@ -87,6 +135,8 @@ function ProjectImagePreview({
       <img
         src={imageSrc}
         alt={title}
+        loading="lazy"
+        decoding="async"
         className={[
           'w-full h-full object-cover object-top',
           'transition-[filter,transform] duration-500 ease-out',
@@ -101,7 +151,7 @@ function ProjectImagePreview({
       <div
         className="absolute inset-0 z-10 transition-opacity duration-500 group-hover:opacity-0 pointer-events-none"
         style={{
-          background:   `linear-gradient(160deg, #000000 0%, ${color} 100%)`,
+          background: `linear-gradient(160deg, #000000 0%, ${color} 100%)`,
           mixBlendMode: 'color',
         }}
       />
@@ -111,9 +161,9 @@ function ProjectImagePreview({
         style={{ background: 'rgba(222,219,200,0.06)', mixBlendMode: 'screen' }}
       />
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[#0e0e0e] to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-[#0e0e0e] to-transparent z-20 pointer-events-none transition-colors duration-500" />
       {/* Inset ring on hover */}
-      <div className="absolute inset-0 z-30 ring-1 ring-inset ring-white/0 group-hover:ring-white/[0.07] transition-all duration-500 pointer-events-none" />
+      <div className="absolute inset-0 z-30 ring-1 ring-inset ring-black/0 dark:ring-white/0 group-hover:ring-black/[0.07] dark:group-hover:ring-white/[0.07] transition-all duration-500 pointer-events-none" />
     </div>
   );
 }
@@ -124,15 +174,18 @@ function ProjectCard({
   index,
   lang,
   ctaText,
+  onOpenCaseStudy,
 }: {
-  project: (typeof t.portfolio.items)[number];
+  project: (typeof portfolioItems)[number] & { caseStudyId?: string };
   index: number;
   lang: Lang;
   ctaText: string;
+  onOpenCaseStudy: (id: string) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
   const shouldReduceMotion = useReducedMotion();
+  const { theme } = useTheme();
 
   /**
    * FIX: use a global regex to strip all hyphens and the mockup suffix.
@@ -144,21 +197,37 @@ function ProjectCard({
     .toLowerCase();
   const displayUrl = `${slug}.com`;
 
+  const isCaseStudy = Boolean(project.caseStudyId);
+
+  const cardClickProps = isCaseStudy
+    ? {
+        as: 'button' as const,
+        onClick: () => project.caseStudyId && onOpenCaseStudy(project.caseStudyId),
+        className: 'relative overflow-hidden block w-full text-left cursor-pointer',
+      }
+    : {
+        as: 'a' as const,
+        href: project.projectUrl,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        className: 'relative overflow-hidden block cursor-pointer',
+      };
+
+  const Component = cardClickProps.as;
+
   return (
-    <motion.div
+    <m.div
       ref={ref}
-      className="bg-[#0e0e0e] rounded-2xl overflow-hidden flex flex-col group border border-white/[0.04] hover:border-white/[0.09] transition-colors duration-400"
+      className="bg-white dark:bg-[#0e0e0e] rounded-2xl overflow-hidden flex flex-col group border border-black/[0.04] dark:border-white/[0.04] hover:border-black/[0.09] dark:hover:border-white/[0.09] transition-colors duration-500"
       initial={{ scale: 0.95, opacity: 0, y: 24 }}
       animate={isInView ? { scale: 1, opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: index * 0.06, ease: [0.05, 0.95, 0.1, 1] }}
     >
       <BrowserChrome url={displayUrl} />
 
-      <a
-        href={project.projectUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative overflow-hidden block cursor-pointer"
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      <Component
+        {...(cardClickProps as any)}
         style={{ aspectRatio: '16/10' }}
         aria-label={`Open ${tx(project.title, lang)}`}
       >
@@ -167,67 +236,42 @@ function ProjectCard({
           title={tx(project.title, lang)}
           color={project.color}
         />
-      </a>
+      </Component>
 
       <div className="flex flex-col flex-1 p-5 md:p-6 gap-3">
         {/* Tech tags */}
         <div className="flex flex-wrap gap-1.5">
           {project.tags.map((tag) => {
-            const color = BRAND_COLORS[tag] ?? '#E1E0CC';
-            return (
-              <motion.span
-                key={tag}
-                className="text-[10px] font-mono text-primary/45 border border-primary/[0.12] rounded-full px-2 py-[2px] tracking-wide transition-colors duration-200 select-none cursor-default"
-                whileHover={{
-                  color,
-                  borderColor: color,
-                  boxShadow: `0 0 12px ${color}30`,
-                  backgroundColor: `${color}0A`,
-                }}
-              >
-                {tag}
-              </motion.span>
-            );
+            const darkColor = BRAND_COLORS[tag] ?? '#6B7280';
+            const color = theme === 'light' ? (LIGHT_SAFE_COLORS[tag] ?? darkColor) : darkColor;
+            return <TagBadge key={tag} tag={tag} color={color} />;
           })}
         </div>
 
-        <h3 className="text-primary font-medium text-base md:text-[17px] leading-snug">
+        <h3 className="text-black dark:text-primary font-medium text-base md:text-[17px] leading-snug">
           {tx(project.title, lang)}
         </h3>
 
-        <p className="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">
+        <p className="text-gray-600 dark:text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">
           {tx(project.desc, lang)}
         </p>
 
         {/* CTA */}
-        <div className="pt-3 border-t border-white/[0.05]">
-          {/*
-            FIX: clip-path reveal is now driven by the CSS rule
-            `.portfolio-cta:hover .arrow-reveal` in index.css.
-            This works reliably across all browsers (incl. Safari) because
-            the parent selector is CSS, not a Tailwind group variant driving
-            an inline style — the previous approach never actually animated.
-          */}
-          <a
-            href={project.projectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="portfolio-cta inline-flex items-center gap-1.5 text-primary/50 hover:text-primary text-xs transition-colors duration-300 group/btn"
+        <div className="pt-3 border-t border-black/[0.05] dark:border-white/[0.05] flex justify-between items-center">
+          <Component
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            {...(cardClickProps as any)}
+            className="portfolio-cta inline-flex items-center gap-1.5 text-black/50 dark:text-primary/50 hover:text-black dark:hover:text-primary text-xs transition-colors duration-300 group/btn"
           >
             <span className="transition-transform duration-200 ease-out group-hover/btn:translate-x-1">
               {ctaText}
             </span>
 
             {!shouldReduceMotion && (
-              /*
-               * FIX: className "arrow-reveal" is what the CSS rule targets.
-               * Initial state: fully clipped (invisible). On .portfolio-cta:hover
-               * the CSS rule sets clip-path to inset(0 0% 0 0) revealing it.
-               */
               <span
                 className="arrow-reveal overflow-hidden inline-flex"
                 style={{
-                  clipPath:   'inset(0 100% 0 0)',
+                  clipPath: 'inset(0 100% 0 0)',
                   transition: 'clip-path 200ms cubic-bezier(0.23, 1, 0.32, 1)',
                 }}
               >
@@ -235,59 +279,78 @@ function ProjectCard({
               </span>
             )}
 
-            {/* Accessible fallback arrow (visible for reduced-motion users) */}
             <ArrowRight
               className="w-3.5 h-3.5 -rotate-45 transition-transform duration-300 group-hover/btn:translate-x-[2px] group-hover/btn:-translate-y-[2px]"
               aria-hidden
               style={{ opacity: shouldReduceMotion ? 1 : 0 }}
             />
-          </a>
+          </Component>
+          
+          {project.projectUrl && isCaseStudy && (
+            <m.a 
+              href={project.projectUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-black hover:bg-primary/80 transition-colors text-xs sm:text-sm font-semibold shadow-sm"
+              title={lang === 'en' ? 'Visit Live Site' : 'Ver Sitio en Vivo'}
+              onClick={(e) => e.stopPropagation()}
+              whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+            >
+              <span>{lang === 'en' ? 'Live' : 'Web'}</span>
+              <ExternalLink className="w-4 h-4" />
+            </m.a>
+          )}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
 /* ── Section ──────────────────────────────────────────────────────────── */
+
 interface PortfolioSectionProps {
-  lang: Lang;
+  onOpenCaseStudy?: (id: string) => void;
 }
 
-export function PortfolioSection({ lang }: PortfolioSectionProps) {
+export function PortfolioSection({ onOpenCaseStudy = () => {} }: PortfolioSectionProps) {
+  const { lang } = useLanguage();
   const labelRef = useRef<HTMLParagraphElement>(null);
   const isLabelInView = useInView(labelRef, { once: true, margin: '-60px' });
 
   return (
-    <section id="portfolio" className="bg-black py-20 md:py-32 px-4 md:px-8 relative">
+    <section id="portfolio" className="bg-light-bg dark:bg-black py-20 md:py-32 px-4 md:px-8 relative transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         <div className="mb-14 md:mb-20">
-          <motion.p
+          <m.p
             ref={labelRef}
-            className="text-primary text-[10px] sm:text-xs tracking-widest uppercase mb-4"
+            className="text-black dark:text-primary text-[10px] sm:text-xs tracking-widest uppercase mb-4"
             initial={{ opacity: 0, y: 6 }}
             animate={isLabelInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           >
             {tx(t.portfolio.sectionTitle, lang)}
-          </motion.p>
+          </m.p>
 
           <div className="w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[0.95]">
             <WordsPullUpMultiStyle
               key={`ptf-title-${lang}`}
-              segments={[{ text: tx(t.portfolio.sectionSub, lang), className: 'text-primary' }]}
+              segments={[{ text: tx(t.portfolio.sectionSub, lang), className: 'text-black dark:text-primary' }]}
               className="w-full justify-start"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {t.portfolio.items.map((project, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-5">
+          {portfolioItems.map((project, i) => (
             <ProjectCard
               key={i}
-              project={project}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              project={project as any}
               index={i}
               lang={lang}
               ctaText={tx(t.portfolio.cta, lang)}
+              onOpenCaseStudy={onOpenCaseStudy}
             />
           ))}
         </div>

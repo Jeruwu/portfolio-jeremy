@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { m, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 interface WordsPullUpProps {
@@ -19,8 +19,11 @@ export function WordsPullUp({ text, className = '', showAsterisk = false }: Word
         return (
           // FIX: stable key combining word + index avoids reorder glitches
           // when the same word appears multiple times in the string.
-          <span key={`${word}-${i}`} className="overflow-hidden inline-block pb-[0.2em] mb-[-0.2em]">
-            <motion.span
+          <span
+            key={`${word}-${i}`}
+            className="overflow-hidden inline-block pb-[0.2em] mb-[-0.2em]"
+          >
+            <m.span
               className="inline-block relative"
               initial={{ y: 20, opacity: 0 }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
@@ -41,7 +44,7 @@ export function WordsPullUp({ text, className = '', showAsterisk = false }: Word
                 word
               )}
               {i < words.length - 1 ? '\u00A0' : ''}
-            </motion.span>
+            </m.span>
           </span>
         );
       })}
@@ -83,14 +86,14 @@ export function WordsPullUpMultiStyle({ segments, className = '' }: WordsPullUpM
           key={`${word}-${globalIndex}`}
           className="overflow-hidden inline-block mx-[0.15em] pb-[0.2em] mb-[-0.2em]"
         >
-          <motion.span
+          <m.span
             className={`inline-block ${wordClass}`}
             initial={{ y: 20, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: globalIndex * 0.08, ease: [0.16, 1, 0.3, 1] }}
           >
             {word}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </span>

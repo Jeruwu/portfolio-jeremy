@@ -1,56 +1,94 @@
-# 🌐 Jeremy Canarte - High-Performance Web Portfolio
+# 🚀 Jeremy Canarte - Frontend Developer Portfolio
 
-A modern, fast, and scalable personal portfolio website designed and developed for Jeremy Canarte[cite: 32]. This web application is tailored to showcase end-to-end web solutions, highlighting custom corporate websites, high-converting landing pages, and automated booking systems[cite: 32].
+A modern, fast, and scalable personal portfolio web application designed and developed for **Jeremy Canarte**. This project serves as a masterclass in modern frontend development, demonstrating advanced animation techniques, elite-tier UX patterns, robust state management, and strict attention to performance, SEO, and accessibility.
 
-This project serves as a masterclass in modern frontend development, demonstrating advanced animation techniques, robust state management, and strict attention to accessibility.
+---
 
-## ✨ Key Features
+## ✨ Elite-Tier Features
 
-* **Native Bilingual Support:** Features a custom, type-safe translation dictionary (`i18n.ts`) that allows users to instantly toggle the entire interface between English and Spanish[cite: 31, 32].
-* **Immersive 3D Animations:** Utilizes Framer Motion to create interactive 3D tilt effects (`rotateX`, `rotateY`) and floating particles within the service cards[cite: 39].
-* **Accessibility & Reduced Motion:** Implements strict accessibility standards by using the `useReducedMotion` hook and global CSS media queries to safely disable heavy animations for users who prefer reduced motion[cite: 33, 35, 36].
-* **Interactive Project Gallery:** Showcases featured projects (such as EcoGlow, Ápice, and Mantra) using CSS-driven duotone color washes, hover filters, and a custom simulated browser chrome component[cite: 32, 38].
-* **Smart Contact Flow:** Integrates a custom `useScrollToContact` hook that smoothly navigates the user to the contact section and triggers a glowing pulse animation around the contact form[cite: 31, 35].
-* **Premium UI Textures:** Enhances the visual depth of the site using an embedded SVG fractal noise overlay and a seamless background video loop in the Hero section[cite: 33, 36].
+- **Progressive Web App (PWA):** Fully installable on desktop and mobile devices with offline caching via `vite-plugin-pwa` and Service Workers.
+- **Fluid Smooth Scrolling:** Uses `@studio-freight/lenis` for an inertia-based, buttery-smooth scrolling experience that feels incredibly premium.
+- **Custom Magnetic Interactions:** Features a custom animated cursor with `mix-blend-mode: difference` and a `<MagneticWrapper>` component that physically pulls navigation items and buttons toward the user's cursor.
+- **Dark/Light Mode & i18n:** Built-in contexts (`ThemeProvider`, `LanguageProvider`) that allow users to instantly toggle the entire interface between English and Spanish, and Light and Dark themes.
+- **High-Performance Lazy Loading:** Critical sections like the Hero load instantly, while heavy components (`PortfolioSection`, `ContactSection`) are code-split and loaded asynchronously via `React.lazy()` and `<Suspense>`.
+- **Advanced SEO & Analytics:** Dynamically injects metadata, OpenGraph tags, and structured data via `react-helmet-async`. Includes a dynamic `robots.txt` y `sitemap.xml` para una perfecta indexación en buscadores. Integrado con **Vercel Analytics** (`@vercel/analytics`).
+- **Real Backend Integration (EmailJS):** A fully functional contact form powered by `react-hook-form`, validated by `Zod`, and connected to EmailJS to send real-time emails without a traditional backend server.
+- **Immersive Animations & Preloader:** Includes a custom premium Preloader and utilizes Framer Motion (`LazyMotion`) to create interactive 3D tilt effects, floating particles, and layout transitions while maintaining a minimal bundle size.
+- **Robust Testing:** Unit and integration testing configured with **Vitest** and React Testing Library to ensure component reliability.
 
-## 🛠️ Technologies & Tools
+---
 
-* **Core Framework:** React (v18) and TypeScript for rigorous type safety across translation helpers and component props[cite: 31, 32, 34].
-* **Styling:** Tailwind CSS configured globally with the 'Almarai' font family and custom glassmorphism effects[cite: 33, 35].
-* **Animation Engine:** Framer Motion (`framer-motion`) for complex spring physics, scroll-linked animations, and layout transitions[cite: 35, 36, 37, 38, 39].
-* **Iconography:** Lucide React icons (e.g., `Globe`, `Mail`, `ArrowRight`, `MousePointerClick`)[cite: 35, 36, 38, 39].
+## 💻 Technologies & Tools
+
+- **Core:** React (v19) and TypeScript for rigorous type safety.
+- **Build Tool:** Vite.
+- **Styling:** Tailwind CSS configured globally with custom glassmorphism effects and dynamic theme variables.
+- **Animation Engine:** Framer Motion (`framer-motion`) for complex spring physics, scroll-linked animations, and layout transitions.
+- **Forms & Validation:** `react-hook-form` + `@hookform/resolvers/zod` + `@emailjs/browser`.
+- **UX Enhancements:** `@studio-freight/lenis` (Scroll), Lucide React (Icons).
+- **Testing:** Vitest, Testing Library, jsdom.
+
+---
 
 ## 🚀 Installation & Local Execution
 
 To run this portfolio locally on your machine, follow these steps:
 
 1. **Clone the repository:**
-   
-        git clone https://github.com/Jeruwu/portfolio-jeremy.git
-        cd portfolio-jeremy
+   ```bash
+   git clone https://github.com/Jeruwu/portfolio-jeremy.git
+   cd portfolio-jeremy
+   ```
 
 2. **Install project dependencies:**
    Make sure you have Node.js and npm installed.
-   
-        npm install
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-3. **Start the local development server:**
-   
-        npm run dev
+3. **Set up Environment Variables:**
+   Create a `.env` file in the root directory and add your EmailJS and Google Analytics keys based on `.env.example`:
+   ```env
+   VITE_EMAILJS_SERVICE_ID=your_service_id
+   VITE_EMAILJS_TEMPLATE_ID=your_template_id
+   VITE_EMAILJS_PUBLIC_KEY=your_public_key
+   VITE_GA_MEASUREMENT_ID=your_ga_id
+   ```
 
-   Open your browser and navigate to the local host address provided in your terminal (typically `http://localhost:5173`).
+4. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
+   Open your browser and navigate to `http://localhost:5173`.
 
-## 📁 Project Structure
-
-The application is highly modular, split into distinct feature sections:
-
-* `src/App.tsx`: The main orchestration component that manages the global language state and scroll triggers[cite: 31].
-* `src/i18n.ts`: A centralized, type-safe dictionary containing all English and Spanish copy, as well as the portfolio project data[cite: 32].
-* `src/components/HeroSection.tsx`: The landing view featuring a background video, sliding navigation underline effects, and the primary call-to-action[cite: 36, 37].
-* `src/components/ServicesSection.tsx`: A grid of interactive service cards with mouse-tracking 3D tilt and floating particles[cite: 39].
-* `src/components/PortfolioSection.tsx`: The project gallery featuring custom browser UI mockups and CSS-driven image reveal animations[cite: 38].
-* `src/components/ContactSection.tsx`: A robust contact form with client-side validation, simulated loading/success states, and animated social links[cite: 35].
-* `src/index.css`: The global stylesheet defining the noise textures, smooth scrolling behaviors, and reduced-motion fallback rules[cite: 33].
+5. **Run Tests:**
+   ```bash
+   npm run test
+   ```
 
 ---
-*Designed & built with precision.*[cite: 35]
+
+## 🚀 Despliegue en Netlify
+
+El proyecto está optimizado y listo para ser desplegado en **Netlify**. Sigue estos pasos:
+
+1. **Configuración Básica en Netlify:**
+   - Conecta tu repositorio de GitHub a Netlify.
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+
+2. **Variables de Entorno:**
+   Asegúrate de agregar todas tus variables de entorno (las mismas del archivo `.env`) en la configuración de Netlify (Site settings > Environment variables):
+   - `VITE_EMAILJS_SERVICE_ID`
+   - `VITE_EMAILJS_TEMPLATE_ID`
+   - `VITE_EMAILJS_PUBLIC_KEY`
+
+3. **Enrutamiento del lado del cliente (Opcional):**
+   Aunque el portafolio utiliza anclas, si en el futuro agregas rutas de React Router, puedes crear un archivo `_redirects` en la carpeta `public/` con el siguiente contenido para evitar errores 404:
+   ```
+   /*    /index.html   200
+   ```
+
+---
+
+_Designed & built with precision by Jeremy Canarte._

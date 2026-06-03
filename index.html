@@ -2,12 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' ws:;"
+    />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preload" as="image" href="/images/hero-poster.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jeremy Canarte | Portafolio</title>
+    <meta
+      name="description"
+      content="Diseño y desarrollo webs rápidas, modernas y escalables, adaptadas a los objetivos de tu negocio."
+    />
+    <meta property="og:title" content="Jeremy Canarte | Portafolio" />
+    <meta
+      property="og:description"
+      content="Diseño y desarrollo webs rápidas, modernas y escalables, adaptadas a los objetivos de tu negocio."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/og-image.webp" />
+    <meta name="author" content="Jeremy Canarte" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Person",
+        "name": "Jeremy Canarte",
+        "jobTitle": "Web Developer",
+        "url": "https://example.com/"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

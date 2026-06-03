@@ -1,115 +1,134 @@
 export type Lang = 'en' | 'es';
 
+
+
 export const t = {
   nav: {
-    services: { en: 'Services',  es: 'Servicios'  },
-    portfolio: { en: 'Portfolio', es: 'Portafolio' },
-    contact:   { en: 'Contact',   es: 'Contacto'   },
+    services: { en: 'Services', es: 'Servicios' },
+    process: { en: 'Process', es: 'Proceso' },
+    portfolio: { en: 'Success Stories', es: 'Casos de Éxito' },
+    contact: { en: 'Start Scaling', es: 'Empezar a Escalar' },
   },
   hero: {
     title: {
-      en: 'High-Performance Websites for Businesses that Want to Grow.',
-      es: 'Sitios Web de Alto Rendimiento para Negocios que Buscan Crecer.',
+      en: 'Stop Losing Clients to Slow, Outdated Websites.',
+      es: 'Deja de Perder Clientes por una Web Lenta y Obsoleta.',
     },
     subtitle: {
-      en: "Hi, I'm Jeremy Canarte. I design and develop fast, modern, and scalable websites tailored to your business goals.",
-      es: 'Hola, soy Jeremy Cañarte. Diseño y desarrollo webs rápidas, modernas y escalables, adaptadas a los objetivos de tu negocio.',
+      en: "You are leaving money on the table. I build high-converting web platforms and automated systems that turn your visitors into paying customers on autopilot, giving you your time back.",
+      es: 'Estás dejando dinero sobre la mesa. Construyo plataformas de alta conversión y sistemas automatizados que convierten visitantes en clientes en piloto automático, devolviéndote tu tiempo libre.',
     },
-    cta: { en: "Let's work together", es: 'Trabajemos juntos' },
+    cta: { en: "Start Automating Today", es: 'Empieza a Escalar Hoy' },
   },
   services: {
-    sectionTitle: { en: 'What I Do',  es: 'Lo que Hago' },
+    sectionTitle: { en: 'How I help you scale', es: 'Cómo te ayudo a escalar' },
     sectionSub: {
-      en: 'End-to-end web solutions crafted with precision.',
-      es: 'Soluciones web completas creadas con precisión.',
+      en: 'Systems designed to increase your revenue and eliminate manual work.',
+      es: 'Sistemas diseñados para multiplicar tus ingresos y eliminar el trabajo manual.',
     },
     items: [
       {
-        title: { en: 'Custom Corporate Websites', es: 'Sitios Web Corporativos a Medida' },
+        title: { en: 'Unbreakable Digital Authority', es: 'Autoridad Digital Inquebrantable' },
         desc: {
-          en: 'Bespoke, professional websites built to establish a powerful online presence, optimized for local SEO, credibility, and brand growth.',
-          es: 'Sitios web profesionales creados a medida para establecer una presencia online poderosa, optimizados para SEO local, credibilidad y crecimiento de marca.',
+          en: "Are your competitors stealing your clients because their website looks better? We design premium digital ecosystems that project elite status, close sales for you, and position your brand as the only logical choice in the market.",
+          es: '¿Tu competencia se lleva a tus clientes porque su web se ve mejor? Diseñamos ecosistemas digitales premium que proyectan estatus, cierran ventas por ti y posicionan a tu marca como la única opción lógica del mercado.',
         },
         number: '01',
         iconType: 'code' as const,
       },
       {
-        title: { en: 'High-Converting Landing Pages', es: 'Landing Pages de Alta Conversión' },
+        title: { en: 'Unstoppable Sales Funnels', es: 'Embudos de Conversión Imparables' },
         desc: {
-          en: 'Performance-driven, single-page sites strategically designed to capture high-quality leads, promote specific products, and maximize your ad campaign ROI.',
-          es: 'Páginas únicas orientadas al rendimiento, diseñadas estratégicamente para capturar leads de alta calidad, promover productos y maximizar el ROI de tus campañas.',
+          en: 'Paying for ads that lead to a generic website is burning money. We build psychologically-driven, magnetic Landing Pages designed specifically to capture high-quality leads and squeeze maximum ROI from your campaigns.',
+          es: 'Pagar por anuncios que dirigen a una web genérica es quemar dinero. Creamos Landing Pages magnéticas diseñadas psicológicamente para capturar leads de alta calidad y exprimir al máximo el ROI de tus campañas.',
         },
         number: '02',
         iconType: 'cursor' as const,
       },
       {
-        title: { en: 'Automated Booking Systems', es: 'Sistemas de Reservas Automatizados' },
+        title: { en: 'Business on Autopilot', es: 'Negocio en Piloto Automático' },
         desc: {
-          en: 'Smart, seamless web solutions integrated with real-time calendars and automated reminders to streamline client appointments and save hours of manual coordination.',
-          es: 'Soluciones web inteligentes integradas con calendarios en tiempo real y recordatorios automáticos para optimizar citas y ahorrar horas de coordinación manual.',
+          en: 'Forget the stress of coordinating appointments via WhatsApp. We implement intelligent systems that schedule, process payments, and send automated reminders 24/7, so you can focus exclusively on scaling your business.',
+          es: 'Olvídate del estrés de coordinar citas por WhatsApp. Implementamos sistemas inteligentes que agendan, cobran y envían recordatorios automáticos 24/7, para que tú solo te dediques a facturar y escalar.',
         },
         number: '03',
         iconType: 'calendar' as const,
       },
     ],
   },
-  portfolio: {
-    sectionTitle: { en: 'Featured Projects',        es: 'Proyectos Destacados'        },
-    sectionSub:   { en: 'A selection of recent work.', es: 'Una selección de trabajos recientes.' },
-    cta:          { en: 'View Project',              es: 'Ver Proyecto'                },
+  process: {
+    sectionTitle: { en: 'My Working Process', es: 'Mi Proceso de Trabajo' },
+    sectionSub: { 
+      en: 'A transparent, engineered methodology to ensure flawless delivery and zero friction.', 
+      es: 'Una metodología transparente y técnica para asegurar una entrega impecable y cero fricción.' 
+    },
     items: [
       {
-        title: { en: 'EcoGlow – Botanic Skincare', es: 'EcoGlow – Skincare Botánico' },
+        title: { en: 'Discovery & Audit', es: 'Diagnóstico y Descubrimiento' },
         desc: {
-          en: 'A full e-commerce experience for a sustainable skincare brand — featuring product filtering, animated cart, and a Stripe-powered checkout.',
-          es: 'Una experiencia e-commerce completa para una marca de skincare sostenible, con filtros de producto, carrito animado y checkout con Stripe.',
+          en: '15-30 min initial call. We analyze your business needs and define the best digital strategy for your website.',
+          es: 'Llamada inicial de 15-30 min. Analizamos las necesidades de tu negocio y definimos la mejor estrategia digital para tu web.'
         },
-        tags: ['React', 'TypeScript', 'Node.js'],
-        imageSrc: '/images/ecoglow-mockup.webp',
-        color: '#1a2e1a',
-        accent: '#DEDBC8',
-        projectUrl: 'https://ecoglow.example.com',
+        number: '01'
       },
       {
-        title: { en: 'Ápice – Business Consulting', es: 'Ápice – Consultoría Empresarial' },
+        title: { en: 'Proposal & Design', es: 'Propuesta y Diseño' },
         desc: {
-          en: 'A high-trust corporate website for a consulting firm, built for conversion with clear CTAs, case studies, and a Stripe-powered service booking flow.',
-          es: 'Sitio corporativo de alta credibilidad para una consultora, optimizado para conversión con CTAs claros, casos de éxito y reserva de servicios con Stripe.',
+          en: 'Sitemap creation. Delivery of a detailed proposal with exact development timelines and budget. No hidden fees.',
+          es: 'Creación del mapa de sitio. Entrega de propuesta detallada con tiempos exactos de desarrollo y presupuesto. Sin costos ocultos.'
         },
-        tags: ['Next.js', 'Tailwind', 'Stripe'],
-        imageSrc: '/images/apice-mockup.webp',
-        color: '#1a1a2e',
-        accent: '#DEDBC8',
-        projectUrl: 'https://apice.example.com',
+        number: '02'
       },
       {
-        title: { en: 'Mantra – Yoga Studio', es: 'Mantra – Estudio de Yoga' },
+        title: { en: 'Build & Iterate', es: 'Desarrollo Iterativo' },
         desc: {
-          en: 'A serene booking platform for a yoga studio — with real-time class schedules, instructor profiles, and Supabase-backed seat reservations.',
-          es: 'Plataforma de reservas para un estudio de yoga con horarios en tiempo real, perfiles de instructores y reservas de plazas con Supabase.',
+          en: 'Programming with constant communication. Regular check-ins to ensure the design and functionalities meet your expectations.',
+          es: 'Programación con comunicación constante. Revisiones periódicas para asegurar que el diseño y las funcionalidades cumplen tus expectativas.'
         },
-        tags: ['Vue.js', 'Supabase', 'GSAP'],
-        imageSrc: '/images/mantra-mockup.webp',
-        color: '#2e1a1a',
-        accent: '#DEDBC8',
-        projectUrl: 'https://musical-kitsune-cee5b0.netlify.app/',
+        number: '03'
       },
-    ],
+      {
+        title: { en: 'Launch & Delivery', es: 'Lanzamiento y Entrega' },
+        desc: {
+          en: 'Deployment on the final domain. Speed testing, mobile adaptation, and delivery of a 100% operational project.',
+          es: 'Despliegue en el dominio final. Pruebas de velocidad, adaptación a móviles y entrega del proyecto 100% operativo.'
+        },
+        number: '04'
+      }
+    ]
+  },
+  portfolio: {
+    sectionTitle: { en: 'Businesses Already Dominating', es: 'Negocios que ya Dominan su Sector' },
+    sectionSub: { en: 'From operational chaos to automated growth.', es: 'Del caos operativo al crecimiento automatizado.' },
+    cta: { en: 'See the Transformation', es: 'Ver la Transformación' },
   },
   contact: {
-    title:    { en: 'Ready to upgrade your online presence?', es: '¿Listo para mejorar tu presencia online?' },
-    subtitle: {
-      en: "Let's discuss your next project. Drop me a message!",
-      es: 'Hablemos de tu próximo proyecto. ¡Envíame un mensaje!',
+    title: {
+      en: 'Your business is ready for the next level. Are you?',
+      es: 'Tu negocio está listo para el siguiente nivel. ¿Y tú?',
     },
-    name:       { en: 'Name',                    es: 'Nombre'                       },
-    email:      { en: 'Email',                   es: 'Correo'                       },
-    message:    { en: 'Tell me about your project', es: 'Cuéntame sobre tu proyecto' },
-    submit:     { en: 'Send Message',            es: 'Enviar mensaje'               },
-    submitting: { en: 'Sending...',              es: 'Enviando...'                  },
-    submitted:  { en: 'Message Sent!',           es: '¡Mensaje enviado!'            },
+    subtitle: {
+      en: "Stop putting out daily fires. Drop me a message and let's architect the system that will automate your growth.",
+      es: 'Deja de apagar incendios diarios. Escríbeme y diseñemos el sistema que automatizará tu crecimiento.',
+    },
+    name: { en: 'Name', es: 'Nombre' },
+    email: { en: 'Email', es: 'Correo' },
+    message: { en: 'Tell me about your business goals', es: 'Cuéntame sobre los objetivos de tu negocio' },
+    submit: { en: 'Book your Free Scalability Session', es: 'Reserva tu Sesión de Escalamiento Gratis' },
+    submitting: { en: 'Sending...', es: 'Enviando...' },
+    submitted: { en: 'Message Sent!', es: '¡Mensaje enviado!' },
+    copyright: {
+      en: 'Jeremy Canarte. All rights reserved.',
+      es: 'Jeremy Canarte. Todos los derechos reservados.',
+    },
+    designed: {
+      en: 'Architected for growth.',
+      es: 'Diseñado para el crecimiento.',
+    },
   },
 } as const;
+
+
 
 /** Type-safe translation helper */
 export function tx<T extends { en: string; es: string }>(obj: T, lang: Lang): string {

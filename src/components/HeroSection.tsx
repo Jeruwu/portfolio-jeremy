@@ -1,16 +1,16 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { WordsPullUp } from './WordsPullUp';
 import { Navbar } from './Navbar';
-import { type Lang, t, tx } from '../i18n';
+import { t, tx } from '../i18n';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroSectionProps {
-  lang: Lang;
-  onLangToggle: () => void;
   onContactHighlight: () => void;
 }
 
-export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSectionProps) {
+export function HeroSection({ onContactHighlight }: HeroSectionProps) {
+  const { lang } = useLanguage();
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -22,22 +22,30 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
           loop
           muted
           playsInline
+          preload="auto"
           // FIX: aria-hidden so screen readers don't announce a decorative video
           aria-hidden
+          poster="/images/hero-poster.webp"
           className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/Hero.mp4"
-        />
+        >
+          <source src="/videos/Hero.webm" type="video/webm" />
+          <source src="/videos/Hero.mp4" type="video/mp4" />
+        </video>
 
         {/* Noise overlay */}
-        <div className="noise-overlay absolute inset-0 opacity-[0.7] mix-blend-overlay pointer-events-none z-10" aria-hidden />
+        <div
+          className="noise-overlay absolute inset-0 opacity-[0.7] mix-blend-overlay pointer-events-none z-10"
+          aria-hidden
+        />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/75 z-10" aria-hidden />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/75 z-10"
+          aria-hidden
+        />
 
-       {/* Navbar */}
+        {/* Navbar */}
         <Navbar 
-          lang={lang} 
-          onLangToggle={onLangToggle} 
           onContactHighlight={onContactHighlight} 
         />
         {/* Hero Content — bottom aligned */}
@@ -52,7 +60,7 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
 
           {/* Subtitle + CTA row */}
           <div className="flex flex-col sm:flex-row sm:items-end gap-5 sm:gap-10">
-            <motion.p
+            <m.p
               key={`hero-sub-${lang}`}
               className="text-primary/70 text-sm md:text-base max-w-sm leading-relaxed"
               initial={{ y: 16, opacity: 0 }}
@@ -60,14 +68,14 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
               transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
               {tx(t.hero.subtitle, lang)}
-            </motion.p>
+            </m.p>
 
-            <motion.div
+            <m.div
               initial={{ y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             >
-              <motion.button
+              <m.button
                 onClick={onContactHighlight}
                 aria-label={tx(t.hero.cta, lang)}
                 className="group flex items-center gap-2 bg-primary rounded-full pl-5 pr-1 py-1 w-fit cursor-pointer border-none outline-none"
@@ -77,15 +85,15 @@ export function HeroSection({ lang, onLangToggle, onContactHighlight }: HeroSect
                 <span className="text-black font-medium text-sm sm:text-base whitespace-nowrap">
                   {tx(t.hero.cta, lang)}
                 </span>
-                <motion.span
+                <m.span
                   className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0"
                   whileHover={shouldReduceMotion ? {} : { x: 3 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                   <ArrowRight className="w-4 h-4 text-primary" aria-hidden />
-                </motion.span>
-              </motion.button>
-            </motion.div>
+                </m.span>
+              </m.button>
+            </m.div>
           </div>
         </div>
       </div>
